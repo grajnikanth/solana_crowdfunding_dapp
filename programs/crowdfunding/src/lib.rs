@@ -98,7 +98,10 @@ pub mod crowdfunding {
                 ctx.accounts.sponsor.to_account_info(),
                 ctx.accounts.campaign.to_account_info()
             ]
-        )
+        )?;
+
+        (&mut ctx.accounts.campaign).amount_donated += amount;
+        Ok(())
     }
 
 
@@ -134,5 +137,6 @@ pub struct Donate<'info> {
     #[account(mut)]
     pub campaign: Account<'info, Campaign>,
     #[account(mut)]
-    pub sponsor: Signer<'info>
+    pub sponsor: Signer<'info>,
+    pub system_program: Program<'info, System>
 }
